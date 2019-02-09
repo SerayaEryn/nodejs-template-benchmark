@@ -10,7 +10,7 @@ exports.contributors = 240;
 exports.lastCommit = '9 days ago';
 exports.syntax = 'Short-hand HTML';
 exports.clientSide = false;
-exports.caching = false;
+exports.caching = true;
 exports.asynchronous = false;
 exports.contentBlocks = true;
 exports.partials = true;
@@ -28,18 +28,19 @@ exports.encode = true;
 
 exports.prepare = function (data, done) {
   const file = fs.readFileSync(`${__dirname}/tpl_escaped.pug`, 'utf8');
-  compiled = pug.compile(file);
+  compiled = pug.compile(file, { compileDebug: false });
   tplData = data;
   done();
 };
 
 exports.prepareUnescaped = function (data, done) {
   const file = fs.readFileSync(`${__dirname}/tpl_unescaped.pug`, 'utf8');
-  compiled = pug.compile(file);
+  compiled = pug.compile(file, { compileDebug: false });
   tplData = data;
   done();
 };
 
 exports.step = function (done) {
-  const html = pug.render(compiled, tplData, done);
+  const html = compiled(tplData);
+  done(null, html);
 };

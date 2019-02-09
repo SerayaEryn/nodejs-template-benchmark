@@ -30,14 +30,14 @@ exports.encode = true;
 exports.prepare = function (data, done) {
   var str = fs.readFileSync(__dirname + '/tpl_escaped.jade', 'utf8');
   tplData = data;
-  compiled = jade.compile(str);
+  compiled = jade.compile(str, { compileDebug: false });
   done();
 };
 
 exports.prepareUnescaped = function (data, done) {
   var str = fs.readFileSync(__dirname + '/tpl_unescaped.jade', 'utf8');
   tplData = data;
-  compiled = jade.compile(str);
+  compiled = jade.compile(str, { compileDebug: false });
   done();
 };
 
